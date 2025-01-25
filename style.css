@@ -1,5 +1,6 @@
 * {
     box-sizing: border-box;
+    font-family: "Courier New", "Comic Sans", 'Arial Narrow Bold', sans-serif;
 }
 
 .case {
@@ -15,11 +16,22 @@
 }
 
 .screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+
     background-color: #7CBDD5;
     align-self: stretch;
     border-radius: 16px;
     height: 120px;
+    padding: 30px;
 }
+.entry {
+    
+}
+
+
 
 .others {
     display: flex;

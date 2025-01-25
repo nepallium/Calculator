@@ -4,12 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculator</title>
-    <script def src="main.js"></script>
+    <script defer src="main.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="case">
-        <div class="screen"></div>
+        <div class="screen">
+            <div class="log"></div>
+            <div class="entry"></div>
+        </div>
         <div class="buttons">
             <div class="others">
                 <button>CLEAR</button>
@@ -31,8 +34,8 @@
             <button class="operator">x</button>
 
             <button>0</button>
-            <button>.</button>
-            <button>=</button>
+            <button class="operator">.</button>
+            <button class="operator">=</button>
             <button class="operator">÷</button>
         </div>
     </div>

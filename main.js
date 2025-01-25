@@ -28,5 +28,15 @@ function operate(num1, operator, num2) {
     }
 }
 
-// let operation = prompt("Operation").split(" ");
-// log(operate(...operation));
+const screen = document.querySelector(".screen");
+const calcLog = screen.querySelector(".log");
+const entry = screen.querySelector(".entry");
+const buttons = document.querySelectorAll("button");
+
+
+buttons.forEach(button => 
+    button.addEventListener("click", clicked));
+
+function clicked(event) {
+    entry.textContent = event.target.textContent;
+}
