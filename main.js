@@ -6,7 +6,7 @@ const entry = screen.querySelector(".entry");
 const buttons = document.querySelectorAll("button");
 let inputsArray = [];
 let currentNum = null;
-let resultExists = false;
+let isFloat = false;
 
 buttons.forEach(button => 
     button.addEventListener("click", click)
@@ -18,8 +18,15 @@ function click(event) {
     switch (clickedButton.className) {
         case "": // user clicks on number
             // CurrentNum depends on itself only, not on the screen output!
-            currentNum = currentNum*10 + +btnContent;
-            entry.textContent = currentNum;
+            if (isFloat) {
+                let [tmp, numOfDecimals] = (entry.textContent.split("."));
+                currentNum = currentNum + (+btnContent)/Math.pow(10, numOfDecimals.length + 1);
+                entry.textContent += btnContent; // using string notation since JS bugs out with large decimals
+            }
+            else {
+                currentNum = currentNum*10 + +btnContent;
+                entry.textContent = currentNum;
+            }
             
             // If array length == 2, it means there is an operator inside the array.
             // No need to update value at inputsArray[length-1]
@@ -35,6 +42,7 @@ function click(event) {
                 // Not enough elements to perform an operation on. Break out of switch
                 if (inputsArray.length < 3) {
                     inputsArray.push(btnContent)
+                    isFloat = false; // reset isFloat so that when entering a new number, it doesn't add onto the decimals of the previous number
                     break;
                 }
                 // ElSE perform operation by using switch fallthrough
@@ -43,7 +51,7 @@ function click(event) {
             
         case "equal":
             if (inputsArray.length === 3){
-                let result = operate(...inputsArray);
+                let result = operate(...inputsArray).toFixed(4); // round to 4 digits
                 entry.textContent = result;
                 
                 inputsArray = [result]; 
@@ -54,7 +62,7 @@ function click(event) {
                 
                 // Keep operator in memory if it was clicked before pressing "="
                 if (btnContent !== "=" && 
-                    (!(inputsArray.includes("Math ERROR ⌐(ಠ۾ಠ)¬")))
+                    (!(inputsArray.includes("⌐(ಠ۾ಠ)¬")))
                 ) {
                     inputsArray.push(btnContent);
                 }
@@ -68,6 +76,7 @@ function click(event) {
             break;
 
         case "delete":
+            // Delete digit if currentNum holds a value
             if (currentNum !== null) {
                 currentNum = +currentNum.toString().slice(0, -1);
                 
@@ -80,10 +89,17 @@ function click(event) {
                 } 
                 // ELSE update the currentNum
                 else {
-                    entry.textContent = currentNum
+                    entry.textContent = currentNum;
                     let sliceEnd = inputsArray.length === 2 ? 0 : 1;
                     inputsArray = [...inputsArray.slice(0, inputsArray.length-sliceEnd), currentNum];
                 }
+            }
+            break;
+
+        case "dot":
+            if (!(entry.textContent.includes("."))) {
+                entry.textContent += ".";
+                isFloat = true;
             }
     }
     log(currentNum, inputsArray);
@@ -111,9 +127,9 @@ function multiply(a,b) {
 }
 function divide(a,b) {
     if (b === 0) {
-        return "Math ERROR ⌐(ಠ۾ಠ)¬";
+        return "⌐(ಠ۾ಠ)¬";
     }
-    return +(a/b).toFixed(5);
+    return a/b;
 }
 // Darken button when hovering
 buttons.forEach(button =>
