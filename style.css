@@ -9,7 +9,7 @@
     gap: 30px;
     
     width: 400px;
-    height: 650px;
+    height: auto;
     padding: 30px;
     background-color: #E4EBF0;
     border-radius: 5%;
@@ -17,21 +17,25 @@
 
 .screen {
     display: flex;
+    flex-grow: 1; /* allow screen to grow if number overflows*/
+
     flex-direction: column;
     justify-content: flex-end;
     align-items: flex-end;
 
     background-color: #7CBDD5;
-    align-self: stretch;
     border-radius: 16px;
-    height: 120px;
-    padding: 30px;
+    min-height: 120px;
+    padding: 12px;
 
     font-size: 40px;
 }
 .entry {
-    display: flex;
-    flex-wrap: wrap;
+    /* Handle number length overflow */
+    display: block;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    text-align: right;
 }
 
 
