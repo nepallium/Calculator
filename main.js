@@ -28,5 +28,5 @@ function operate(num1, operator, num2) {
     }
 }
 
-let operation = prompt("Operation").split("");
-log(operate(...operation));
+// let operation = prompt("Operation").split(" ");
+// log(operate(...operation));

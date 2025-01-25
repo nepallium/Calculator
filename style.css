@@ -1,0 +1,48 @@
+* {
+    box-sizing: border-box;
+}
+
+.case {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    
+    width: 400px;
+    height: 600px;
+    padding: 30px;
+    background-color: #E4EBF0;
+    border-radius: 5%;
+}
+
+.screen {
+    background-color: #7CBDD5;
+    align-self: stretch;
+    border-radius: 16px;
+    height: 120px;
+}
+
+.others {
+    display: flex;
+    gap: 16px;
+    /* Top buttons take 100% of the available width */
+    flex-basis: 100%;
+}
+.others > button {
+    flex: 1;
+}
+
+/* Container for numbers and operators */
+.buttons {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+
+.buttons > button {
+    /* each button takes at least 20% of the width. 
+    It will take more if there is remaining space with flex-grow: 1 */
+    flex: 1 0 20%;
+}
+
