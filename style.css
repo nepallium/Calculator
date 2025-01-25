@@ -27,12 +27,18 @@
     height: 120px;
     padding: 30px;
 }
-.entry {
-    
+
+
+/* Generic styling for buttons */
+button {
+    background-color: hsl(260, 3%, 81%);
+    color: #3f5267;
+    font-weight: bold;
+    font-size: xx-large;
+    border: none;
 }
 
-
-
+/* Clear and Delete buttons */
 .others {
     display: flex;
     gap: 16px;
@@ -41,16 +47,16 @@
 }
 .others > button {
     flex: 1;
+    font-size: x-large;
 }
 
-/* Container for numbers and operators */
+/* Numbers and operators */
 .buttons {
     display: flex;
     flex: 1;
     flex-wrap: wrap;
     gap: 16px;
 }
-
 
 .buttons > button {
     /* each button takes at least 20% of the width. 
