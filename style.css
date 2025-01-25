@@ -6,10 +6,10 @@
 .case {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 30px;
     
     width: 400px;
-    height: 600px;
+    height: 650px;
     padding: 30px;
     background-color: #E4EBF0;
     border-radius: 5%;
@@ -26,16 +26,38 @@
     border-radius: 16px;
     height: 120px;
     padding: 30px;
+
+    font-size: 40px;
+}
+.entry {
+    display: flex;
+    flex-wrap: wrap;
 }
 
 
+
+
+/* All buttons */
+.buttons {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
 /* Generic styling for buttons */
 button {
-    background-color: hsl(260, 3%, 81%);
+    /* each button takes at least 20% of the width. 
+    It will take more if there is remaining space with flex-grow: 1 */
+    flex: 1 0 20%;
+
+    background-color: #ceccd1;
     color: #3f5267;
-    font-weight: bold;
-    font-size: xx-large;
+    font-weight: bolder;
+    font-size: 40px;
     border: none;
+
+    height: 70px; /* set standardized height for all buttons */
 }
 
 /* Clear and Delete buttons */
@@ -44,23 +66,14 @@ button {
     gap: 16px;
     /* Top buttons take 100% of the available width */
     flex-basis: 100%;
+
 }
 .others > button {
-    flex: 1;
-    font-size: x-large;
+    font-size: 30px;
+    font-weight: 550;
+    background-color: #d087ec;
 }
 
-/* Numbers and operators */
-.buttons {
-    display: flex;
-    flex: 1;
-    flex-wrap: wrap;
-    gap: 16px;
+.operator {
+    background-color: #F0C252;
 }
-
-.buttons > button {
-    /* each button takes at least 20% of the width. 
-    It will take more if there is remaining space with flex-grow: 1 */
-    flex: 1 0 20%;
-}
-

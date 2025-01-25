@@ -1,6 +1,5 @@
 log = console.log;
 
-
 const screen = document.querySelector(".screen");
 const calcLog = screen.querySelector(".log");
 const entry = screen.querySelector(".entry");
@@ -29,15 +28,18 @@ function click(event) {
             break;
 
         case "operator":
-            // Reset CurrentNum to allow user to input next number for the operation
-            currentNum = null;
-            
-            // Not enough elements to perform an operation on. Break out of switch
-            if (inputsArray.length < 3) {
-                inputsArray.push(btnContent)
-                break;
+            if (typeof inputsArray[0] === "number" && inputsArray.length === 1) {
+                // Reset CurrentNum to allow user to input next number for the operation
+                currentNum = null;
+                
+                // Not enough elements to perform an operation on. Break out of switch
+                if (inputsArray.length < 3) {
+                    inputsArray.push(btnContent)
+                    break;
+                }
+                // ElSE perform operation by using switch fallthrough
+                // perform case "equal"
             }
-            // ElSE perform operation by using switch fallthrough
             
         case "equal":
             if (inputsArray.length === 3){
@@ -51,11 +53,12 @@ function click(event) {
                 currentNum = null;
                 
                 // Keep operator in memory if it was clicked before pressing "="
-                if (btnContent !== "=") {
+                if (btnContent !== "=" && 
+                    (!(inputsArray.includes("Math ERROR ⌐(ಠ۾ಠ)¬")))
+                ) {
                     inputsArray.push(btnContent);
                 }
             }
-
             break;
         
         case "clear":
@@ -67,7 +70,20 @@ function click(event) {
         case "delete":
             if (currentNum !== null) {
                 currentNum = +currentNum.toString().slice(0, -1);
-                entry.textContent = currentNum;
+                
+                // IF the currentNum is 0, this means user has deleted the whole number
+                // Remove it from the array
+                if (currentNum === 0) {
+                    currentNum = null;
+                    entry.textContent = "";
+                    inputsArray.pop();
+                } 
+                // ELSE update the currentNum
+                else {
+                    entry.textContent = currentNum
+                    let sliceEnd = inputsArray.length === 2 ? 0 : 1;
+                    inputsArray = [...inputsArray.slice(0, inputsArray.length-sliceEnd), currentNum];
+                }
             }
     }
     log(currentNum, inputsArray);
@@ -76,7 +92,7 @@ function click(event) {
 function operate(num1, operator, num2) {
     switch (operator) {
         case "+": return add(num1, num2);
-        case "-": return subtract(num1, num2);
+        case "—": return subtract(num1, num2);
         case "x": return multiply(num1, num2);
         case "÷": return divide(num1, num2);
         default: return "UH OH!";
