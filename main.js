@@ -30,6 +30,10 @@ document.addEventListener("keydown", (event) => {
                 fakeClickBtn = document.getElementById("=");
                 click(fakeClickBtn);
                 break;
+            case "c":
+                fakeClickBtn = document.getElementById("clear");
+                click(fakeClickBtn);
+                break;
             case "=":
             case "+":
             case "x":   
