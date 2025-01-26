@@ -151,12 +151,11 @@ function click(clickedButton) {
 
             // Delete digit if currentNum holds a value
             else if (currentNum !== null) {
-                entry.textContent = currentNum.toString().slice(0, -1);
+                entry.textContent = entry.textContent.slice(0, -1);
                 
                 // IF the currentNum is 0, this means user has deleted the whole number (except case: 0.xxx)
                 // Remove it from the array
                 if (entry.textContent === "") {
-                    log("yay")
                     currentNum = null;
                     inputsArray.pop();
                 } 
