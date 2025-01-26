@@ -93,7 +93,7 @@ function click(clickedButton) {
                     isFloat = false; // reset isFloat so that when entering a new number, it doesn't add onto the decimals of the previous number
                     
                     // CALCULATOR LOG
-                    firstNumAsString = entry.textContent
+                    firstNumAsString = entry.textContent;
                     calcLog.textContent = `${firstNumAsString} ${inputsArray[1]}`;
                     
                     break;
@@ -134,6 +134,8 @@ function click(clickedButton) {
             entry.textContent = "";
             calcLog.textContent = "";
             currentNum = null;
+            isFloat = false;
+            firstNumAsString = "";
             break;
 
         case "delete":
@@ -141,15 +143,18 @@ function click(clickedButton) {
             if (entry.textContent.at(-1) === ".") {
                 isFloat = false;
                 entry.textContent = entry.textContent.slice(0, -1);
+                if (entry.textContent === "0") {
+                    entry.textContent = "";
+                }
             }
 
             // Delete digit if currentNum holds a value
             else if (currentNum !== null) {
                 currentNum = +currentNum.toString().slice(0, -1);
                 
-                // IF the currentNum is 0, this means user has deleted the whole number
+                // IF the currentNum is 0, this means user has deleted the whole number (except case: 0.xxx)
                 // Remove it from the array
-                if (currentNum === 0) {
+                if (currentNum === 0 && (!isFloat)) {
                     currentNum = null;
                     entry.textContent = "";
                     inputsArray.pop();
