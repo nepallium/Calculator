@@ -112,7 +112,7 @@ function click(clickedButton) {
                 // Longer way to account for bad JS rounding for floats
                 calcLog.textContent = `${firstNumAsString} ${inputsArray[1]} ${entry.textContent} = `;
                 
-                let result = operate(...inputsArray); // round to 4 digits
+                let result = operate(...inputsArray);
                 entry.textContent = result;
                 
                 inputsArray = [result]; 
@@ -147,28 +147,25 @@ function click(clickedButton) {
             if (entry.textContent.at(-1) === ".") {
                 isFloat = false;
                 entry.textContent = entry.textContent.slice(0, -1);
-                if (entry.textContent === "0") {
-                    entry.textContent = "";
-                }
             }
 
             // Delete digit if currentNum holds a value
             else if (currentNum !== null) {
-                currentNum = +currentNum.toString().slice(0, -1);
+                entry.textContent = currentNum.toString().slice(0, -1);
                 
                 // IF the currentNum is 0, this means user has deleted the whole number (except case: 0.xxx)
                 // Remove it from the array
-                if (currentNum === 0 && (!isFloat)) {
+                if (entry.textContent === "") {
+                    log("yay")
                     currentNum = null;
-                    entry.textContent = "";
                     inputsArray.pop();
                 } 
                 // ELSE update the currentNum
                 else {
-                    entry.textContent = currentNum;
-                    if (isFloat && (!(entry.textContent.includes(".")))) {
-                        entry.textContent += ".";
-                    }
+                    currentNum = +entry.textContent;
+                    // if (isFloat && (!(entry.textContent.includes(".")))) {
+                    //     entry.textContent += ".";
+                    // }
                     let indexToChange = inputsArray.length >= 2 ? 2 : 0;
                     inputsArray[indexToChange] = currentNum;
                 }
