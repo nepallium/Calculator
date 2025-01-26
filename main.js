@@ -7,6 +7,7 @@ const buttons = document.querySelectorAll("button");
 let inputsArray = [];
 let currentNum = null;
 let isFloat = false;
+let firstNumAsString;
 
 buttons.forEach(button => 
     button.addEventListener("click", (event) => click(event.target))
@@ -35,6 +36,9 @@ function click(clickedButton) {
             // Therefore, no need to update value at inputsArray[0]
             let indexToChange = inputsArray.length >= 2 ? 2 : 0;
             inputsArray[indexToChange] = currentNum;
+            if (indexToChange === 0) {
+                calcLog.textContent = "";
+            }
             break;
 
         case "operator":
@@ -53,14 +57,23 @@ function click(clickedButton) {
                     }
                     inputsArray.push(btnContent)
                     isFloat = false; // reset isFloat so that when entering a new number, it doesn't add onto the decimals of the previous number
+                    
+                    // CALCULATOR LOG
+                    firstNumAsString = entry.textContent
+                    calcLog.textContent = `${firstNumAsString} ${inputsArray[1]}`;
+                    
                     break;
                 }
-                // ElSE perform the operation by using switch fallthrough
-                // aka perform case "equal"
+                // ElSE perform the operation by using switch fallthrough (instead of breaking)
+                // aka perform case "equal" below
+
             }
             
         case "equal":
             if (inputsArray.length === 3){
+                // Longer way to account for bad JS rounding for floats
+                calcLog.textContent = `${firstNumAsString} ${inputsArray[1]} ${entry.textContent} = `;
+                
                 let result = operate(...inputsArray); // round to 4 digits
                 entry.textContent = result;
                 
@@ -69,12 +82,15 @@ function click(clickedButton) {
                 // since inputsArray[0] will be replaced by said number since array.length != 2 (check logic under case "")
                 
                 currentNum = null;
+                isFloat = false; // reset isFloat so that when entering a new number, it doesn't add onto the decimals of the previous number
                 
-                // Keep operator in memory if it was clicked before pressing "="
+                // Keep operator in memory if an operator was clicked before pressing "="
                 if (btnContent !== "=" && 
                     (!(inputsArray.includes("⌐(ಠ۾ಠ)¬")))
                 ) {
                     inputsArray.push(btnContent);
+                    firstNumAsString = entry.textContent;
+                    calcLog.textContent = `${firstNumAsString} ${inputsArray[1]}`;
                 }
             }
             break;
@@ -82,6 +98,7 @@ function click(clickedButton) {
         case "clear":
             inputsArray = [];
             entry.textContent = "";
+            calcLog.textContent = "";
             currentNum = null;
             break;
 
@@ -107,7 +124,10 @@ function click(clickedButton) {
             break;
 
         case "dot":
-            if (!(entry.textContent.includes("."))) {
+            if (isFloat === false) {
+                if (currentNum === null) { // user pressed dot without entering a number first
+                    entry.textContent = "0"
+                }
                 entry.textContent += ".";
                 isFloat = true;
             }
