@@ -237,3 +237,8 @@ buttons.forEach(button =>
 buttons.forEach(button =>
     button.addEventListener("mouseleave", () => button.style.filter = "")
 );
+
+
+// Footer year
+const year = document.querySelector("footer .year");
+year.textContent = new Date().getFullYear();

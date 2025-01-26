@@ -3,6 +3,31 @@
     font-family: "Courier New", "Comic Sans", 'Arial Narrow Bold', sans-serif;
 }
 
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    
+    background-color: #fff9ee; /* Light beige */
+    padding-top: 20px;
+}
+
+footer {
+    color: #27313d;
+    margin-top: auto;
+    font-weight: 520;
+    padding: 16px;
+}
+footer a{
+    text-decoration: none;
+    color: inherit;
+}
+footer a:hover {
+    color:#00A0C6;
+}
+
 .case {
     display: flex;
     flex-direction: column;
