@@ -32,9 +32,9 @@ function click(clickedButton) {
             }
             
             // If array length == 2, it means there is an operator inside the array.
-            // No need to update value at inputsArray[length-1]
-            let sliceEnd = inputsArray.length === 2 ? 0 : 1;
-            inputsArray = [...inputsArray.slice(0, inputsArray.length-sliceEnd), currentNum];
+            // Therefore, no need to update value at inputsArray[0]
+            let indexToChange = inputsArray.length >= 2 ? 2 : 0;
+            inputsArray[indexToChange] = currentNum;
             break;
 
         case "operator":
@@ -45,7 +45,7 @@ function click(clickedButton) {
                 // Reset CurrentNum to allow user to input next number for the operation
                 currentNum = null;
                 
-                // Not enough elements to perform an operation on. Break out of switch
+                // IF not enough elements to perform an operation on: Break out of switch
                 if (inputsArray.length < 3) {
                     // If user wants to change the operator
                     if (inputsArray.length === 2) {
@@ -55,8 +55,8 @@ function click(clickedButton) {
                     isFloat = false; // reset isFloat so that when entering a new number, it doesn't add onto the decimals of the previous number
                     break;
                 }
-                // ElSE perform operation by using switch fallthrough
-                // perform case "equal"
+                // ElSE perform the operation by using switch fallthrough
+                // aka perform case "equal"
             }
             
         case "equal":
@@ -117,7 +117,7 @@ function click(clickedButton) {
 
 function operate(num1, operator, num2) {
     switch (operator) {
-        // added + to remove trailing 0s from number
+        // added "+" to remove trailing 0s from number
         case "+": return +add(num1, num2).toFixed(4);
         case "—": return +subtract(num1, num2).toFixed(4);
         case "x": return +multiply(num1, num2).toFixed(4);
