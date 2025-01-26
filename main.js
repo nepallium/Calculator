@@ -9,12 +9,15 @@ let currentNum = null;
 let isFloat = false;
 
 buttons.forEach(button => 
-    button.addEventListener("click", click)
+    button.addEventListener("click", (event) => click(event.target))
 );
+// Calc using keyboard
+document.addEventListener("keydown", (event) => {
 
-function click(event) {
-    let clickedButton = event.target;
-    let btnContent = clickedButton.textContent
+});
+
+function click(clickedButton) {
+    let btnContent = clickedButton.textContent;
     switch (clickedButton.className) {
         case "": // user clicks on number
             // CurrentNum depends on itself only, not on the screen output!
@@ -35,12 +38,19 @@ function click(event) {
             break;
 
         case "operator":
-            if (typeof inputsArray[0] === "number" && inputsArray.length === 1) {
+            if (typeof inputsArray[0] === "number" 
+                && (inputsArray.length === 1 ||
+                    inputsArray.length === 2) // If user wants to change the operator
+                ) {
                 // Reset CurrentNum to allow user to input next number for the operation
                 currentNum = null;
                 
                 // Not enough elements to perform an operation on. Break out of switch
                 if (inputsArray.length < 3) {
+                    // If user wants to change the operator
+                    if (inputsArray.length === 2) {
+                        inputsArray.pop();
+                    }
                     inputsArray.push(btnContent)
                     isFloat = false; // reset isFloat so that when entering a new number, it doesn't add onto the decimals of the previous number
                     break;
@@ -51,7 +61,7 @@ function click(event) {
             
         case "equal":
             if (inputsArray.length === 3){
-                let result = operate(...inputsArray).toFixed(4); // round to 4 digits
+                let result = operate(...inputsArray); // round to 4 digits
                 entry.textContent = result;
                 
                 inputsArray = [result]; 
@@ -107,9 +117,10 @@ function click(event) {
 
 function operate(num1, operator, num2) {
     switch (operator) {
-        case "+": return add(num1, num2);
-        case "—": return subtract(num1, num2);
-        case "x": return multiply(num1, num2);
+        // added + to remove trailing 0s from number
+        case "+": return +add(num1, num2).toFixed(4);
+        case "—": return +subtract(num1, num2).toFixed(4);
+        case "x": return +multiply(num1, num2).toFixed(4);
         case "÷": return divide(num1, num2);
         default: return "UH OH!";
     }
@@ -129,7 +140,7 @@ function divide(a,b) {
     if (b === 0) {
         return "⌐(ಠ۾ಠ)¬";
     }
-    return a/b;
+    return +(a/b).toFixed(4);
 }
 // Darken button when hovering
 buttons.forEach(button =>
