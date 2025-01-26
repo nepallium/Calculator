@@ -150,7 +150,7 @@ function click(clickedButton) {
             }
 
             // Delete digit if currentNum holds a value
-            else if (currentNum !== null) {
+            else if (currentNum !== null || entry.textContent === "0") {
                 entry.textContent = entry.textContent.slice(0, -1);
                 
                 // IF the currentNum is 0, this means user has deleted the whole number (except case: 0.xxx)
@@ -162,9 +162,6 @@ function click(clickedButton) {
                 // ELSE update the currentNum
                 else {
                     currentNum = +entry.textContent;
-                    // if (isFloat && (!(entry.textContent.includes(".")))) {
-                    //     entry.textContent += ".";
-                    // }
                     let indexToChange = inputsArray.length >= 2 ? 2 : 0;
                     inputsArray[indexToChange] = currentNum;
                 }
