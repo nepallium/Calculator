@@ -54,6 +54,10 @@ function click(clickedButton) {
     let btnContent = clickedButton.textContent;
     switch (clickedButton.className) {
         case "": // user clicks on number
+            if (entry.textContent === "filler") {
+                entry.textContent = "";
+                entry.style.color = "#f5f9fd";
+            }
             // CurrentNum depends on itself only, not on the screen output!
             if (isFloat) {
                 let [tmp, numOfDecimals] = (entry.textContent.split("."));
@@ -156,6 +160,10 @@ function click(clickedButton) {
                 // IF the currentNum is 0, this means user has deleted the whole number (except case: 0.xxx)
                 // Remove it from the array
                 if (entry.textContent === "") {
+                    if (calcLog.textContent !== "") {
+                        entry.textContent = "filler";
+                        entry.style.color = "#7CBDD5" // screen blue
+                    }
                     currentNum = null;
                     inputsArray.pop();
                 } 
