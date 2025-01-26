@@ -65,9 +65,14 @@ function click(clickedButton) {
             // Therefore, no need to update value at inputsArray[0]
             let indexToChange = inputsArray.length >= 2 ? 2 : 0;
             inputsArray[indexToChange] = currentNum;
+            
+            // Clears log if a NEW operation is started. 
+            // (There is an operation already present on the log, and user is entering a NEW number
+            // therefore, wants to erase previous operation from memory)
             if (indexToChange === 0) {
                 calcLog.textContent = "";
             }
+
             break;
 
         case "operator":
@@ -132,8 +137,14 @@ function click(clickedButton) {
             break;
 
         case "delete":
+            // User deletes the decimal point
+            if (entry.textContent.at(-1) === ".") {
+                isFloat = false;
+                entry.textContent = entry.textContent.slice(0, -1);
+            }
+
             // Delete digit if currentNum holds a value
-            if (currentNum !== null) {
+            else if (currentNum !== null) {
                 currentNum = +currentNum.toString().slice(0, -1);
                 
                 // IF the currentNum is 0, this means user has deleted the whole number
@@ -146,8 +157,11 @@ function click(clickedButton) {
                 // ELSE update the currentNum
                 else {
                     entry.textContent = currentNum;
-                    let sliceEnd = inputsArray.length === 2 ? 0 : 1;
-                    inputsArray = [...inputsArray.slice(0, inputsArray.length-sliceEnd), currentNum];
+                    if (isFloat && (!(entry.textContent.includes(".")))) {
+                        entry.textContent += ".";
+                    }
+                    let indexToChange = inputsArray.length >= 2 ? 2 : 0;
+                    inputsArray[indexToChange] = currentNum;
                 }
             }
             break;
