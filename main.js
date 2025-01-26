@@ -10,11 +10,40 @@ let isFloat = false;
 let firstNumAsString;
 
 buttons.forEach(button => 
-    button.addEventListener("click", (event) => click(event.target))
+    button.addEventListener("click", (event) => click(event.target)) // pass the element (button)
 );
-// Calc using keyboard
-document.addEventListener("keydown", (event) => {
 
+// Calculate using keyboard
+document.addEventListener("keydown", (event) => {
+    let keypress = event.key;
+    let fakeClickBtn;
+    
+    if (Number.isInteger(+keypress)) {
+        // Simulate getting the event.target of a click
+        fakeClickBtn = document.createElement("button");
+        fakeClickBtn.innerText = keypress;
+        click(fakeClickBtn);
+    }
+    else {
+        switch (keypress) {
+            case "Enter":
+                fakeClickBtn = document.getElementById("=");
+                click(fakeClickBtn);
+                break;
+            case "=":
+            case "+":
+            case "x":   
+            case "/":
+            case "-":
+            case ".":
+            case "Backspace":
+                fakeClickBtn = document.getElementById(keypress);
+                click(fakeClickBtn);
+                break;
+            default: null;
+        }
+    }
+    
 });
 
 function click(clickedButton) {
