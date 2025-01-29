@@ -210,7 +210,6 @@ function click(clickedButton) {
                 isFloat = true;
             }
     }
-    log(currentNum, inputsArray);
 }
 
 function operate(num1, operator, num2) {
