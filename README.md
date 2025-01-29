@@ -1,6 +1,6 @@
 # Calculator
 
->**Try it [here](https://nepallium.github.io/Calculator/)!**
+**Try it [here](https://nepallium.github.io/Calculator/)!**
 
 A web calculator built using HTML, CSS, and Javascript as a project for *The Odin Project* curriculum. It supports basic arithmetic operations and allows for both mouse and keyboard input.
 
@@ -14,12 +14,14 @@ A web calculator built using HTML, CSS, and Javascript as a project for *The Odi
 - Press `Enter` or `=` to calculate.
 - Press `Backspace` to delete the last entry.
 - Press `Clear` or `c` (lowercase) to clear the screen and the memory.
+> [!WARNING]
+> Division by zero yields a calculator error.
 
 ## Keyboard Shortcuts
 | Key      | Description |
 | ----------- | ----------- |
-| `0-9`      | Title       |
-| `+`   | Text        |
+| `0-9`      | Digit       |
+| `+`   | Addition        |
 | `-` | Subtraction |
 | `*` or `x` | Multiplication |
 | `/` | Division |
@@ -28,4 +30,4 @@ A web calculator built using HTML, CSS, and Javascript as a project for *The Odi
 | `c` | Clear screen |
 
 ## Reference
-The calculator design was inspired by https://financialcalculatoronlinefree.com/.
+The calculator design was inspired by https://financialcalculatoronlinefree.com/
