@@ -1,5 +1,3 @@
-log = console.log;
-
 const screen = document.querySelector(".screen");
 const calcLog = screen.querySelector(".log");
 const entry = screen.querySelector(".entry");
@@ -10,29 +8,33 @@ let isFloat = false;
 let firstNumAsString;
 
 buttons.forEach(button =>
-    button.addEventListener("click", (event) => click(event.target)) // pass the element (button)
+    button.addEventListener("mouseup", (event) => {
+        click(event.target);
+        releaseClick(event.target);
+    })
 );
 
 // Calculate using keyboard
+let fakeClickBtn;
 document.addEventListener("keydown", (event) => {
     let keypress = event.key;
-    let fakeClickBtn;
+    let isValidKey = true;
 
     if (Number.isInteger(+keypress)) {
         // Simulate getting the event.target of a click
-        fakeClickBtn = document.createElement("button");
-        fakeClickBtn.innerText = keypress;
-        click(fakeClickBtn);
+        fakeClickBtn = Array.from(document.querySelectorAll("button"))
+        .find(button => button.textContent === keypress);
     }
     else {
         switch (keypress) {
             case "Enter":
                 fakeClickBtn = document.getElementById("=");
-                click(fakeClickBtn);
                 break;
             case "c":
                 fakeClickBtn = document.getElementById("clear");
-                click(fakeClickBtn);
+                break;
+            case "*":
+                fakeClickBtn = document.getElementById("x");
                 break;
             case "=":
             case "+":
@@ -42,13 +44,21 @@ document.addEventListener("keydown", (event) => {
             case ".":
             case "Backspace":
                 fakeClickBtn = document.getElementById(keypress);
-                click(fakeClickBtn);
                 break;
-            default: null;
+            default: isValidKey = false;
         }
+
+    }
+    if (isValidKey) {
+        triggerClick(fakeClickBtn);
+        click(fakeClickBtn);
+
+        // Only listen for keyup if keydown was valid
+        document.addEventListener("keyup", () => releaseClick(fakeClickBtn));
     }
 
 });
+
 
 function click(clickedButton) {
     let btnContent = clickedButton.textContent;
@@ -214,7 +224,6 @@ function operate(num1, operator, num2) {
     }
 }
 
-
 function add(a, b) {
     return a + b;
 }
@@ -230,6 +239,8 @@ function divide(a, b) {
     }
     return +(a / b).toFixed(4);
 }
+
+
 // Darken button when hovering
 buttons.forEach(button =>
     button.addEventListener("mouseover", () => button.style.filter = "brightness(85%)")
@@ -237,8 +248,22 @@ buttons.forEach(button =>
 buttons.forEach(button =>
     button.addEventListener("mouseleave", () => button.style.filter = "")
 );
+buttons.forEach(button => 
+    button.addEventListener("mousedown", () => triggerClick(button))
+)
+
+// Reusable functions for mouse click and keyboard keypress
+function triggerClick(element) {
+    element.style.filter = "brightness(75%)";
+}
+function releaseClick(element) {
+    element.style.filter = "";
+}
 
 
 // Footer year
 const year = document.querySelector("footer .year");
 year.textContent = new Date().getFullYear();
+
+// console log shortcut
+log = console.log;
