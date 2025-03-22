@@ -7,6 +7,9 @@ let currentNum = null;
 let isFloat = false;
 let firstNumAsString;
 
+// Track active key presses and their listeners
+const activeKeys = new Map();
+
 buttons.forEach(button =>
     button.addEventListener("mouseup", (event) => {
         click(event.target);
@@ -15,13 +18,17 @@ buttons.forEach(button =>
 );
 
 // Calculate using keyboard
-let fakeClickBtn;
 document.addEventListener("keydown", (event) => {
     let keypress = event.key;
     let isValidKey = true;
+    let fakeClickBtn;
+
+    // If key is already pressed, ignore it
+    if (activeKeys.has(keypress)) {
+        return;
+    }
 
     if (Number.isInteger(+keypress)) {
-        // Simulate getting the event.target of a click
         fakeClickBtn = Array.from(document.querySelectorAll("button"))
         .find(button => button.textContent === keypress);
     }
@@ -47,18 +54,38 @@ document.addEventListener("keydown", (event) => {
                 break;
             default: isValidKey = false;
         }
-
     }
-    if (isValidKey) {
+
+    if (isValidKey && fakeClickBtn) {
+        // Create a one-time keyup listener
+        const keyupHandler = () => {
+            releaseClick(fakeClickBtn);
+            activeKeys.delete(keypress);
+        };
+
+        // Store the listener in the map
+        activeKeys.set(keypress, keyupHandler);
+        
+        // Add the listener
+        document.addEventListener("keyup", keyupHandler, { once: true });
+        
+        // Trigger the click
         triggerClick(fakeClickBtn);
         click(fakeClickBtn);
-
-        // Only listen for keyup if keydown was valid
-        document.addEventListener("keyup", () => releaseClick(fakeClickBtn));
     }
-
 });
 
+// Clean up any remaining active keys if window loses focus
+window.addEventListener("blur", () => {
+    activeKeys.forEach((handler, key) => {
+        document.removeEventListener("keyup", handler);
+        const button = document.querySelector(`button[data-key="${key}"]`);
+        if (button) {
+            releaseClick(button);
+        }
+    });
+    activeKeys.clear();
+});
 
 function click(clickedButton) {
     let btnContent = clickedButton.textContent;
